@@ -21,12 +21,16 @@ const signToken = function (payload) {
 
 const verifyToken = function () {
     const token = this.headers['x-token']
+    console.log(`
+Verifying token: ${token}
+    `)
     if (!token) return
     try {
         const parsedToken = jwt.verify(token, SECRET)
         return parsedToken
     } catch (error) {
         console.log('### ERROR PARSING TOKEN ###')
+        console.log(token)
         console.log(error)
     }
 }

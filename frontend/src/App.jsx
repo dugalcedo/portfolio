@@ -25,7 +25,7 @@ export default function App() {
 
   return (
     <>    
-      <header>
+      <header className='container'>
         <h1>Doug Alcedo</h1>
         <p>Hej, {store.user.username || 'buddy'}.</p>
         <Nav />

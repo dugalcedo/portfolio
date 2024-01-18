@@ -14,6 +14,7 @@ import { handleSubmit } from '../lib/general.js'
 
 import { useState, useEffect, useRef } from 'react'
 import FormFieldWithError from "./FormFieldWithError.jsx"
+import avatars from '../lib/avatars.jsx'
 
 export default function Form({
     onSubmit = ()=>{},
@@ -21,8 +22,16 @@ export default function Form({
     title = "",
     id = "",
     className = "",
-    button = "Submit"
+    button = "Submit",
+    style = {},
+    oneLineStyle
 }) {
+
+    if (oneLineStyle) style = {
+        ...style,
+        display: 'grid',
+        gridTemplateColumns: '3fr 1fr'
+    }
 
     const [formData, $formData] = useState(initErrors())
     const [errors, $errors] = useState(initErrors())
@@ -59,7 +68,7 @@ export default function Form({
         id={id||`form-${Math.random()}`} 
         className={`form ${className}`}
         onSubmit={_handleSubmit}
-        ref={formEl}
+        ref={formEl} style={style}
     >
         {title && <h2>{title}</h2>}
         <div className="fields">
@@ -70,30 +79,76 @@ export default function Form({
                 }
                 const {
                     name = `unnamed-field-${fieldIndex}`,
-                    label = `Label`,
+                    label,
                     type = 'text',
                     defaultValue = ''
                 } = field
 
                 const error = errors[name] || ""
 
+                const inputHandler = (e)=>{
+                    $formData(current => {
+                        current[name] = e.target.value
+                        return {...current}
+                    })
+                }
+
                 return (
                     <label key={name} className='form-field'>
                         <div className="head">
-                            <span>{label}</span>
+                            {label && <span>{label}</span>}
                             {error && <span className='error'>{error}</span>}
                         </div>
-                        <input
-                            onInput={(e)=>{
-                                $formData(current => {
-                                    current[name] = e.target.value
-                                    return {...current}
-                                })
-                            }}
-                            name={name}
-                            defaultValue={defaultValue}
-                            type={type} 
-                        />
+                        {/* TEXTAREA */}
+                        {type === 'textarea' ? (
+                            <textarea 
+                                name={name}
+                                defaultValue={defaultValue}
+                                onInput={inputHandler}
+                                style={{
+                                    resize: 'none'
+                                }}
+                            ></textarea>
+                        )
+                        : 
+                        //////// AVATAR ///////////
+                        type === 'avatar' ? (
+                            <div className="avatar-selector">
+                                {Object.entries(avatars).map(([value, icon]) => {
+                                    let active = (
+                                        (
+                                            (value === 'deer') &&
+                                            (!formData[name])
+                                        ) || (
+                                            formData[name] === value
+                                        )
+                                    )
+                                    return (
+                                        <button 
+                                        key={value} 
+                                        className={`avatar ${active ? "active":""}`}
+                                        onClick={()=>{
+                                            inputHandler({
+                                                target:{value}
+                                            })
+                                        }}
+                                        >
+                                            {icon}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        )
+                        :
+                        ////// OTHER /////////
+                        (
+                            <input
+                                onInput={inputHandler}
+                                name={name}
+                                defaultValue={defaultValue}
+                                type={type} 
+                            />
+                        )}
                     </label>
                 )
             })}

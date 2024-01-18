@@ -19,10 +19,9 @@ userController.get('/auth', async (req, res) => {
         return
     }
 
-    res.json({
-        username: user.username,
-        email: user.email
-    })
+    const publicUser = {...user.dataValues}
+    delete publicUser.password
+    res.json(publicUser)
 })
 
 // Log in
@@ -44,12 +43,9 @@ userController.get('/', async (req, res) => {
         return
     }
 
-    const token = res.signToken({username, password}, true)
+    const token = res.signToken(user.dataValues, true)
 
-    res.json({msg: 'Success', user: {
-        username: user.username,
-        email: user.email
-    }, token})
+    res.json({msg: 'Success', user, token})
 })
 
 // Sign up
@@ -57,7 +53,8 @@ userController.post('/', async (req, res) => {
     const {
         username,
         password,
-        email
+        email,
+        avatar
     } = req.body
 
     if (await User.findOne({where: {username}})) {
@@ -71,7 +68,8 @@ userController.post('/', async (req, res) => {
         await User.create({
             username,
             password: hash,
-            email
+            email,
+            avatar
         })
         res.json({msg: 'Success'})
     } catch (error) {

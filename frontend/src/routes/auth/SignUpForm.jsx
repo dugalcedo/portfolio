@@ -1,5 +1,6 @@
 import { signUpUser } from "../../lib/backend-api.js"
 import Form from "../../components/Form.jsx"
+import avatars from "../../lib/avatars.jsx"
 
 export default function SignUpForm() {
 
@@ -64,6 +65,11 @@ export default function SignUpForm() {
                 name: 'password2',
                 type: 'password',
                 validator: passwordValidator
+            },
+            {
+                label: 'Avatar',
+                name: 'avatar',
+                type: 'avatar'
             }
         ]}
         onSubmit={handleSignUp}

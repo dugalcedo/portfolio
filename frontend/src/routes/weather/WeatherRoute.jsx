@@ -55,9 +55,12 @@ export default function WeatherRoute() {
     }
 
     return (
-        <>
+        <div id="weather-route" className="container">
             <div id="weather-form">
                 <div id="weather-options" className="df jscb aic">
+                    <div className="head">
+                        <h2>Weather lookup</h2>
+                    </div>
                     <div className="weather-option">
                         <h6>temp</h6>
                         <Toggle options={{
@@ -91,36 +94,39 @@ export default function WeatherRoute() {
                             ]
                         }} />
                     </div>
-                </div>
-                {/* end weather options */}
-                <form onSubmit={searchLocations}>
-                    <div id="city-field">
-                        <FormField
-                            label="City"
-                            name="city"
-                        />
-                        <div id="searched-locations">
-                            {searchedLocations.map(loc => {
-                                const key = `${loc.name}${loc.latitude}-${loc.longitude}`
-                                return (
-                                    <button
-                                        style={{
-                                            display: 'block'
-                                        }}
-                                        type="button"
-                                        key={key}
-                                        className="searched-location"
-                                        onClick={() => { selectLocation(loc, loc.latitude, loc.longitude) }}
-                                    >
-                                        {loc.name}, {loc.admin1}, {loc.country}
-                                    </button>
-                                )
-                            })}
+                        {/* end weather options */}
+                    <form onSubmit={searchLocations}>
+                        <div id="city-field">
+                            <FormField
+                                label="City"
+                                name="city"
+                            />
                         </div>
-                    </div>
-                </form>
+                    </form>
+                    {/* End search form */}
+                </div>
+                {searchedLocations.length > 0 && <h4 className="mb-2">Search results</h4>}
+                <div id="searched-locations">
+                    {searchedLocations.map(loc => {
+                        const key = `${loc.name}${loc.latitude}-${loc.longitude}`
+                        return (
+                            <button
+                                style={{
+                                    display: 'block'
+                                }}
+                                type="button"
+                                key={key}
+                                className="searched-location"
+                                onClick={() => { selectLocation(loc, loc.latitude, loc.longitude) }}
+                            >
+                                
+                                <b>{loc.name}</b>, {loc.admin1 ||"Unknown region"}, {loc.country}
+
+                            </button>
+                        )
+                    })}
+                </div>
             </div>
-            {/* End search form */}
 
             <div id="displayed-weather">
                 <div className="days">
@@ -138,6 +144,6 @@ export default function WeatherRoute() {
                     })}
                 </div>
             </div>
-        </>
+        </div>
     )
 }

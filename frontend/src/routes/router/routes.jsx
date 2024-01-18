@@ -1,6 +1,7 @@
 import HomeRoute from '../home/HomeRoute.jsx'
 import WeatherRoute from '../weather/WeatherRoute.jsx'
 import Auth from '../auth/Auth.jsx'
+import SocialMedia from '../social-media/SocialMedia.jsx'
 
 export default [
     {
@@ -20,5 +21,10 @@ export default [
         element: <Auth />,
         nav: 'Log in / Sign up',
         auth: 'loggedOut'
+    },
+    {
+        path: '/social',
+        element: <SocialMedia />,
+        nav: 'Social media',
     }
 ]

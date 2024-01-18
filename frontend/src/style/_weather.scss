@@ -1,0 +1,77 @@
+
+
+.city-field {
+    position: relative;
+}
+
+#searched-locations {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.weatherday {
+    border: 1px solid gray;
+    padding: .5rem;
+    margin: .5rem;
+
+    & .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & .date {
+            font-size: 175%;
+        }
+
+        & .status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: normal;
+            font-style: italic;
+
+            & .status-icon {
+                background-color: lightgray;
+
+                & img {
+                    // border: 1px solid red;
+                    width: 80px;
+                    height: 64px;
+                    object-fit: none;
+                }
+            }
+        }
+    }
+
+    & .body {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    & h4 {
+        display: flex;
+        gap: 1rem;
+        background-color: lightgray;
+        padding: .25rem;
+    }
+}
+
+
+
+
+#weather-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+.weather-option {
+    display: flex;
+    flex-direction: column;
+    & h6 {
+        text-align: center;
+    }
+}
