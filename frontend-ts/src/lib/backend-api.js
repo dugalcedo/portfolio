@@ -9,10 +9,10 @@ export const Backend = axios.create({
     baseURL: ROOT
 })
 
-async function handleAxiosCall(promise, then) {
+async function handleAxiosCall(callback, then) {
     if (!then) then = result => result.data
     try {
-        let result = await promise
+        let result = await callback()
         result = await then(result)
         return result.data
     } catch (error) {
@@ -24,14 +24,12 @@ async function handleAxiosCall(promise, then) {
 export async function getUser() {
     const token = LS.token
     if (!token) return {}
-    return await handleAxiosCall(
-        Backend.get('/api/user/auth', LS.tokenHeaders)
-    )
+    return handleAxiosCall(Backend.get('/api/user/auth', LS.tokenHeaders))
 }
 
 export async function logInUser(data = {}) {
     if (!data.username || ! data.password) return {}
-    return await handleAxiosCall(
+    return handleAxiosCall(
         Backend.get('/api/user', {
             headers: {
                 'x-username': data.username,
@@ -47,7 +45,7 @@ export async function logInUser(data = {}) {
 }
 
 export async function signUpUser(data) {
-    return await handleAxiosCall(
+    handleAxiosCall(
         Backend.post('/api/user', data),
         result => {
             LS.token = result.data.token
@@ -58,7 +56,7 @@ export async function signUpUser(data) {
 }
 
 export async function createPost(data) {
-    return await handleAxiosCall(
+    handleAxiosCall(
         Backend.post('/api/post', data, LS.tokenHeaders),
         result => {
             location.href = '/social'
@@ -68,7 +66,7 @@ export async function createPost(data) {
 }
 
 export async function getAllPosts() {
-    return await handleAxiosCall(
+    handleAxiosCall(
         Backend.get('/api/post/all', LS.tokenHeaders),
         async result => {
             const posts = result.data.map(p => {
@@ -83,7 +81,7 @@ export async function getAllPosts() {
 }
 
 export async function deletePost(id) {
-    return await handleAxiosCall(
+    handleAxiosCall(
         Backend.delete('/api/post', {
             headers: {
                 'x-token': LS.token,
@@ -100,7 +98,7 @@ export async function deletePost(id) {
 }
 
 export async function editPost(id, content) {
-    return await handleAxiosCall(
+    handleAxiosCall(
         Backend.put('/api/post', {id, content}, LS.tokenHeaders),
         result => {
             location.href = '/social'
