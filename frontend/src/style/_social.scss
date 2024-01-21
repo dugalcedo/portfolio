@@ -10,7 +10,7 @@
     grid-template-columns: 150px auto;
 
     & .head {
-        background-color: gray;
+        background-color: #171717;
         color: white;
         padding: .25em;
 
@@ -31,7 +31,7 @@
     }
 
     & .body {
-        background-color: lightgray;
+        background-color: #343434;
         padding: .5rem;
 
         display: flex;

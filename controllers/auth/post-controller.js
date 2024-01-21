@@ -24,7 +24,7 @@ async function getAuthors(posts) {
 // Get posts
 postController.get('/:allOrSelf', async (req, res) => {
     const self = req.params.allOrSelf === 'self'
-    const user = req.verifyToken()
+    const user = await req.verifyToken()
 
     let posts
     if (self) {
@@ -41,7 +41,7 @@ postController.get('/:allOrSelf', async (req, res) => {
 
 // Create post
 postController.post('/', async (req, res) => {
-    const user = req.verifyToken()
+    const user = await req.verifyToken()
     // console.log(user)
     try {
         const newPost = await Post.create({
@@ -58,7 +58,7 @@ postController.post('/', async (req, res) => {
 
 // helper
 async function getUserAndPost(req, res, next) {
-    const user = req.verifyToken()
+    const user = await req.verifyToken()
     if (!user) {
         res.status(400).json({msg: 'Bad token'})
         return

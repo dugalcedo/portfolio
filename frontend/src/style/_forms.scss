@@ -1,4 +1,23 @@
 
+#auth {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.form {
+    background-color: rgba($color: white, $alpha: 0.1);
+    
+    & > h2:first-of-type {
+        background-color: rgba($color: white, $alpha: 0.1);
+        padding: .5rem;
+    }
+
+    & .fields {
+        padding: .5rem;
+    }
+}
+
 .form-field {
     display: grid;
     grid-template-columns: 1fr 3fr;
@@ -10,14 +29,11 @@
         & .error {
             font-size: 75%;
             color: white;
-            background-color: maroon;
+            color: yellow;
         }
     }
 }
 
-.form-error {
-    color: maroon;
-}
 
 .toggle {
     & .choice {
@@ -41,25 +57,27 @@
 }
 
 .avatar-selector {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .avatar {
     cursor: pointer;
+    color: white;
+    background-color: transparent;
     
     & svg {
         display: block;
+        width: 100%;
     }
 
     border: 1px solid transparent;
 
     &.active {
         border: 1px dashed gray;
-        background-color: lightgray;
     }
 
     &:hover {
-        background-color: transparent;
+
     }
 }

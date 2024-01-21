@@ -5,7 +5,7 @@ import { User } from '../../database/sequelize.js'
 
 // Authorize
 userController.get('/auth', async (req, res) => {
-    const token = req.verifyToken()
+    const token = await req.verifyToken()
 
     if (!token) {
         res.json({})

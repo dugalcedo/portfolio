@@ -14,5 +14,8 @@
 		"back": "nodemon index",
 		"start": "node index",
 		"front": "cd /Webdev/portfolio/react-portfolio/frontend && pnpm dev"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.5"
 	}
 }

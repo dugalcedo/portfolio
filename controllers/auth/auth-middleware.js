@@ -5,6 +5,8 @@ const { SECRET } = process.env
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
+import { User } from '../../database/sequelize.js'
+
 const generateHash = (password) => {
     const hash = bcrypt.hashSync(password, 10)
     return hash
@@ -19,7 +21,7 @@ const signToken = function (payload) {
     return token
 }
 
-const verifyToken = function () {
+const verifyToken = async function () {
     const token = this.headers['x-token']
     console.log(`
 Verifying token: ${token}
@@ -27,17 +29,14 @@ Verifying token: ${token}
     if (!token) return
     try {
         const parsedToken = jwt.verify(token, SECRET)
-        return parsedToken
+        const user = await User.findOne({where: {username: parsedToken.username}})
+        return user.dataValues
     } catch (error) {
         console.log('### ERROR PARSING TOKEN ###')
         console.log(token)
         console.log(error)
     }
 }
-
-import {
-    User
-} from '../../database/sequelize.js'
 
 export default function authMiddleware(req, res, next) {
     req.generateHash = generateHash

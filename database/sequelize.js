@@ -9,7 +9,8 @@ const sequelize = new Sequelize(DBURI, {
 
 const {
     STRING,
-    INTEGER
+    INTEGER,
+    BOOLEAN
 } = DataTypes
 
 const PRIMARY_KEY =  {
@@ -50,6 +51,10 @@ export const User = sequelize.define('user', {
                 }
             }
         }
+    },
+    admin: {
+        type: BOOLEAN,
+        defaultValue: false
     }
 }, {
     timestamps: true
@@ -70,6 +75,10 @@ export const Post = sequelize.define('post', {
         validate: {
             len: [1, 300]
         }
+    },
+    likes: {
+        type: INTEGER,
+        defaultValue: 0
     }
 })
 
